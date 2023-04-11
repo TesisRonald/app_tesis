@@ -7,17 +7,17 @@ from db import db_client
 
 class User(object):
 
-    def __init__(self,id,username):
+
+    def __init__(self, id, username):
         self.id = id
         self.username = username
 
 
-def authenticate(username,password):
+def authenticate(username, password):
 
     result = db_client.users.find_one({'username':username})
     if not result is None:
-
-        clave = check_password_hash(result['password'],password)
+        clave = check_password_hash(result['password'], password)
         if clave: #salto de linea          
             return User(str(result['_id']), result['username'])
     return None
@@ -30,12 +30,15 @@ jwt.authentication_callback = authenticate
 jwt.init_app(app)
 @app.route('/me')
 @jwt_required()
+
+
 def me():
     user_data = {'id': current_identity['id'], 'username': current_identity['username']}
 
     return jsonify(user_data)
 
 @app.route('/users', methods=['POST'])
+
 
 def create_user():
     #recibiendo datos
