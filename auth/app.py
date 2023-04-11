@@ -6,19 +6,23 @@ from db import db_client
 # import sys
 
 class User(object):
-    def __init__(self, id, username):
+
+    def __init__(self,id,username):
         self.id = id
         self.username = username
 
 
-def authenticate(username, password):
+def authenticate(username,password):
 
-    result = db_client.users.find_one({'username': username})
+    result = db_client.users.find_one({'username':username})
     if not result is None:
+
         clave = check_password_hash(result['password'],password)
         if clave: #salto de linea          
             return User(str(result['_id']), result['username'])
     return None
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'tesis_devsecops'
 
