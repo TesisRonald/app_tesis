@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from flask_jwt import jwt_required, current_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 from auth import jwt
@@ -16,7 +16,7 @@ def authenticate(username, password):
     result = db_client.users.find_one({'username': username})
     if result is not None:
         clave = check_password_hash(result['password'], password)
-        if clave: 
+        if clave:
             return User(str(result['_id']), result['username'])
     return None
 
@@ -29,7 +29,7 @@ jwt.authentication_callback = authenticate
 jwt.init_app(app)
 
 
-@app.route('/me')  
+@app.route('/me')
 @jwt_required()
 def me():
     user_data = {
@@ -65,5 +65,5 @@ def create_user():
             return {'username': "Ya existe"}
 
     else:
-        return not_found()
+        return abort(404)
     return {'message': "received"}
