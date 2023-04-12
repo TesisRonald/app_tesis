@@ -53,7 +53,7 @@ jobs:
         python-root: '.'
         flake8-flags: ''
         mypy-flags: ''
-        fail-on-isort: false
+        fail-on-isort: true
         skip-flake8: false
         # skip-mypy: false
         # skip-isort: false
@@ -76,3 +76,14 @@ jobs:
         if [ -d tests ] || [ -d test ]; then python -m pytest; fi
 
 #_______________________________________________________#
+  sonarcloud:
+    needs: python-lint
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
