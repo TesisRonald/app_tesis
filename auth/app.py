@@ -5,10 +5,13 @@ from auth import jwt
 from db import db_client
 # import sys
 
+
 class User(object):
 
 
     def __init__(self, id, username):
+
+        
         self.id = id
         self.username = username
 
