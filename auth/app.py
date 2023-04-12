@@ -11,12 +11,13 @@ class User(object):
 
     def __init__(self, id, username):
 
-        
+
         self.id = id
         self.username = username
 
 
 def authenticate(username, password):
+
 
     result = db_client.users.find_one({'username':username})
     if not result is None:
