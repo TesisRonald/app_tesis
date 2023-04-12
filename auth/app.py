@@ -10,13 +10,13 @@ class User(object):
     def __init__(self, id, username):
         self.id = id
         self.username = username
-        
-        
-def authenticate(username, password): 
-    result = db_client.users.find_one({'username':username})
+
+
+def authenticate(username, password):
+    result = db_client.users.find_one({'username': username})
     if result is not None:
         clave = check_password_hash(result['password'], password)
-        if clave:        
+        if clave: 
             return User(str(result['_id']), result['username'])
     return None
 
