@@ -6,15 +6,15 @@ from db import db_client
 # import sys
 
 
-class User(object) :
+class User(object):
     def __init__(self, id, username):
         self.id = id
         self.username = username
         
         
-def authenticate(username, password):
+def authenticate(username, password): 
     result = db_client.users.find_one({'username':username})
-    if not result is not None:
+    if result is not None:
         clave = check_password_hash(result['password'], password)
         if clave:        
             return User(str(result['_id']), result['username'])
@@ -27,9 +27,9 @@ app.config['SECRET_KEY'] = 'tesis_devsecops'
 
 jwt.authentication_callback = authenticate
 jwt.init_app(app)
+
+
 @app.route('/me')  
-
-
 @jwt_required()
 def me():
     user_data = {
