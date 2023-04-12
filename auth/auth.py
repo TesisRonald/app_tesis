@@ -15,5 +15,7 @@ def make_payload(identity):
     result['identity'] = {'id': identity.id, 'username':  identity.username}
     return result
 
-jwt = JWT(authentication_handler=authentication_not_implemented, identity_handler=identity)
+
+jwt = JWT(authentication_handler=authentication_not_implemented,
+          identity_handler=identity)
 jwt.jwt_payload_handler(callback=make_payload)

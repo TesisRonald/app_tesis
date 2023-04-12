@@ -6,21 +6,25 @@ from db import db_client
 # import sys
 
 
-class User(object):
+class User(object) :
     def __init__(self, id, username):
         self.id = id
         self.username = username
+        
+        
 def authenticate(username, password):
     result = db_client.users.find_one({'username':username})
-    if not result is None: 
+    if not result is not None:
         clave = check_password_hash(result['password'], password)
-        if clave:                      
+        if clave:        
             return User(str(result['_id']), result['username'])
     return None
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'tesis_devsecops'
+
+
 jwt.authentication_callback = authenticate
 jwt.init_app(app)
 @app.route('/me')  
@@ -34,9 +38,8 @@ def me():
         }
     return jsonify(user_data)
 
+
 @app.route('/users', methods=['POST'])
-
-
 def create_user():
     username = request.json['username']
     password = request.json['password']
