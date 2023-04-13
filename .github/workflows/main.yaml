@@ -88,3 +88,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  #___________________________________________#
+  merge-feature-to-develop:
+    name: sonarcloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Merge feature -> develop
+        uses: devmasx/merge-branch@master
+        with:
+          type: now # para aprobar automaticamente
+          from_branch: feature/*
+          target_branch: develop
+          github_token: ${{ secrets.GITHUB_TOKEN }}        
